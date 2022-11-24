@@ -6,34 +6,16 @@ import PostCard from "../../components/PostCard/PostCard";
 import PostForm from "../../components/PostForm/PostForm";
 import FullPost from "../../components/FullPost/FullPost";
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com/';
-const POSTS_URL = 'posts?_limit=4';
-const USER_URL = 'users/';
-
-// const makeRequest = async <T, >(url: string): Promise<T> => {
-//   const response = await fetch(url);
-//
-//   if (response.ok) {
-//     return response.json();
-//   }
-//
-//   throw new Error('Something went wrong with network request');
-// };
-// Эту функцию буду использовать, если axios не понравиться!!!
-
-
-
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [postFormShown, setPostFormShown] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   const fetchData = useCallback(async () => {
-    const postsResponse = await axios.get<ApiPost[]>(BASE_URL + POSTS_URL);
+    const postsResponse = await axios.get<ApiPost[]>('posts?_limit=4');
 
     const promises = postsResponse.data.map(async post => {
-      const userUrl = BASE_URL + USER_URL + post.userId;
-      const userResponse = await axios.get<ApiUser>(userUrl);
+      const userResponse = await axios.get<ApiUser>('/users/' + post.userId);
 
       return {
         id: post.id,

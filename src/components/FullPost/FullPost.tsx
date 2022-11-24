@@ -7,13 +7,11 @@ interface Props {
   id: number | null;
 }
 
-const POST_URL = 'https://jsonplaceholder.typicode.com/posts/';
-
 const FullPost: React.FC<Props> = ({id}) => {
   const [post, setPost] = useState<ApiPost | null>(null);
 
   const fetchPost = useCallback(async (id: number) => {
-      const postResponse = await axios.get<ApiPost>(POST_URL + id);
+      const postResponse = await axios.get<ApiPost>('/posts/' + id);
       setPost(postResponse.data);
   }, []);
 
